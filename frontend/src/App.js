@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {BrowserRouter, Route, Link} from 'react-router-dom'
 
 import HomeScreen from './components/fixedComponents/HomeScreen';
+import RegisterScreen from './components/fixedComponents/RegisterScreen';
 import SigninScreen from './components/fixedComponents/SigninScreen';
 import CartScreen from './components/sharedComponents/CartScreen';
 import ProductScreen from './components/sharedComponents/ProductScreen';
@@ -28,7 +29,7 @@ const App = () => {
                         <Link to="/" className="brand">Potter's Pot</Link>
                     </div>
                     <div>
-                        <Link to="/cart">Cart
+                        <Link to="/cart">Panier
                         {cartItems.length > 0 && (
                             <span className="badge">{cartItems.length}</span>
                         )}
@@ -42,12 +43,12 @@ const App = () => {
                                     </Link>
                                     <ul className="dropdown-content">
                                         <Link to="#signout" onClick={signoutHandler}>
-                                            Sign Out
+                                            Déconnexion
                                         </Link>
                                     </ul>
                                 </div>
                             ) : (
-                                <Link to="/signin">Sign In</Link>
+                                <Link to="/signin">Connexion</Link>
                             )
                         }
                     </div>
@@ -56,9 +57,10 @@ const App = () => {
                     <Route path="/cart/:id?" component={CartScreen}></Route>
                     <Route path="/product/:id" component={ProductScreen}></Route>
                     <Route path="/signin" component={SigninScreen}></Route>
+                    <Route path="/register" component={RegisterScreen}></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
-                <footer className="row center">All right reserved</footer>
+                <footer className="row center">Tous droits réservés</footer>
             </div>
         </BrowserRouter>
     );
