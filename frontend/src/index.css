@@ -179,6 +179,11 @@ a.brand
     flex: 2 1 50rem;
 }
 
+.min-30
+{
+    min-width: 30rem;
+}
+
 
 /* IMAGE */
 
@@ -188,6 +193,12 @@ img
     border-radius: 0.5rem;
     text-align: center;
     margin-top: 1rem;
+}
+
+img.small
+{
+    max-width: 5rem;
+    width: 100%;
 }
 
 img.medium
@@ -279,4 +290,27 @@ img.large
 {
     color: #a02020;
     background-color: #ffe0e0;
+}
+
+
+/* FORM */
+
+
+.form
+{
+    max-width: 60rem;
+    margin: 0 auto;
+}
+
+.form > div
+{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+.form label
+{
+    margin: 1rem 0;
+    display: block;
 }
