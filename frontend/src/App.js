@@ -2,14 +2,15 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {BrowserRouter, Route, Link} from 'react-router-dom'
 
-import HomeScreen from './components/fixedComponents/HomeScreen';
-import PaymentMethodScreen from './components/fixedComponents/PaymentMethodScreen';
-import RegisterScreen from './components/fixedComponents/RegisterScreen';
-import ShippingAdressScreen from './components/fixedComponents/ShippingAdressScreen';
-import SigninScreen from './components/fixedComponents/SigninScreen';
-import CartScreen from './components/sharedComponents/CartScreen';
-import ProductScreen from './components/sharedComponents/ProductScreen';
+import HomeScreen from './components/screenComponents/HomeScreen';
+import PaymentMethodScreen from './components/screenComponents/PaymentMethodScreen';
+import RegisterScreen from './components/screenComponents/RegisterScreen';
+import ShippingAdressScreen from './components/screenComponents/ShippingAdressScreen';
+import SigninScreen from './components/screenComponents/SigninScreen';
+import CartScreen from './components/screenComponents/CartScreen';
+import ProductScreen from './components/screenComponents/ProductScreen';
 import { signout } from './redux_files/actions/userActions';
+import PlaceOrderScreen from './components/screenComponents/PlaceOrderScreen';
 
 
 const App = () => {
@@ -62,6 +63,7 @@ const App = () => {
                     <Route path="/register" component={RegisterScreen}></Route>
                     <Route path="/shipping" component={ShippingAdressScreen}></Route>
                     <Route path="/payment" component={PaymentMethodScreen}></Route>
+                    <Route path="/placeorder" component={PlaceOrderScreen}></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>
