@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {BrowserRouter, Route, Link} from 'react-router-dom'
 
+import { signout } from './redux_files/actions/userActions';
+
 import HomeScreen from './components/screenComponents/HomeScreen';
 import PaymentMethodScreen from './components/screenComponents/PaymentMethodScreen';
 import RegisterScreen from './components/screenComponents/RegisterScreen';
@@ -9,9 +11,9 @@ import ShippingAdressScreen from './components/screenComponents/ShippingAdressSc
 import SigninScreen from './components/screenComponents/SigninScreen';
 import CartScreen from './components/screenComponents/CartScreen';
 import ProductScreen from './components/screenComponents/ProductScreen';
-import { signout } from './redux_files/actions/userActions';
 import PlaceOrderScreen from './components/screenComponents/PlaceOrderScreen';
 import OrderScreen from './components/screenComponents/OrderScreen';
+import OrderHistoryScreen from './components/screenComponents/OrderHistoryScreen';
 
 
 const App = () => {
@@ -33,10 +35,11 @@ const App = () => {
                         <Link to="/" className="brand">Potter's Pot</Link>
                     </div>
                     <div>
-                        <Link to="/cart">Panier
-                        {cartItems.length > 0 && (
-                            <span className="badge">{cartItems.length}</span>
-                        )}
+                        <Link to="/cart">
+                            Panier
+                            {cartItems.length > 0 && (
+                                <span className="badge">{cartItems.length}</span>
+                            )}
                         </Link>
                         {
                             userInfo ?
@@ -46,9 +49,16 @@ const App = () => {
                                         {userInfo.name} <i className="fa fa-caret-down"></i>
                                     </Link>
                                     <ul className="dropdown-content">
-                                        <Link to="#signout" onClick={signoutHandler}>
-                                            Déconnexion
-                                        </Link>
+                                        <li>
+                                            <Link to="/orderhistory" >
+                                                Historique de commande
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="#signout" onClick={signoutHandler}>
+                                                Déconnexion
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </div>
                             ) : (
@@ -66,6 +76,7 @@ const App = () => {
                     <Route path="/payment" component={PaymentMethodScreen}></Route>
                     <Route path="/placeorder" component={PlaceOrderScreen}></Route>
                     <Route path="/order/:id" component={OrderScreen}></Route>
+                    <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>
