@@ -15,6 +15,7 @@ import PlaceOrderScreen from './components/screenComponents/PlaceOrderScreen';
 import OrderScreen from './components/screenComponents/OrderScreen';
 import OrderHistoryScreen from './components/screenComponents/OrderHistoryScreen';
 import ProfileScreen from './components/screenComponents/ProfileScreen';
+import PrivateRoute from './components/sharedComponents/privateRoute';
 
 
 const App = () => {
@@ -87,7 +88,7 @@ const App = () => {
                     <Route path="/placeorder" component={PlaceOrderScreen}></Route>
                     <Route path="/order/:id" component={OrderScreen}></Route>
                     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
-                    <Route path="/profile" component={ProfileScreen}></Route>
+                    <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>
