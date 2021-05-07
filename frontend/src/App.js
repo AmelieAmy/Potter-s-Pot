@@ -14,18 +14,23 @@ import ProductScreen from './components/screenComponents/ProductScreen';
 import PlaceOrderScreen from './components/screenComponents/PlaceOrderScreen';
 import OrderScreen from './components/screenComponents/OrderScreen';
 import OrderHistoryScreen from './components/screenComponents/OrderHistoryScreen';
+import ProfileScreen from './components/screenComponents/ProfileScreen';
 
 
 const App = () => {
 
     const cart = useSelector((state) => state.cart);
     const { cartItems } = cart;
+
     const userSignin = useSelector((state) => state.userSignin)
     const { userInfo } = userSignin;
+
     const dispatch = useDispatch();
+
     const signoutHandler = () => {
         dispatch(signout());
     }
+    
 
     return (
         <BrowserRouter>
@@ -49,6 +54,11 @@ const App = () => {
                                         {userInfo.name} <i className="fa fa-caret-down"></i>
                                     </Link>
                                     <ul className="dropdown-content">
+                                        <li>
+                                            <Link to="/profile" >
+                                                Profil
+                                            </Link>
+                                        </li>
                                         <li>
                                             <Link to="/orderhistory" >
                                                 Historique de commande
@@ -77,6 +87,7 @@ const App = () => {
                     <Route path="/placeorder" component={PlaceOrderScreen}></Route>
                     <Route path="/order/:id" component={OrderScreen}></Route>
                     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
+                    <Route path="/profile" component={ProfileScreen}></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>
