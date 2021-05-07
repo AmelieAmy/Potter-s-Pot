@@ -3,9 +3,10 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { detailsOrder } from '../../redux_files/actions/orderActions';
+import { detailsOrder, payOrder } from '../../redux_files/actions/orderActions';
 import LoadingBox from '../sharedComponents/loadingBox';
 import MessageBox from '../sharedComponents/messageBox';
+import { ORDER_PAY_RESET } from '../../redux_files/constants/orderConstants';
 
 
 const OrderScreen = (props) => {
@@ -16,6 +17,13 @@ const OrderScreen = (props) => {
 
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, loading, error } = orderDetails;
+
+    const orderPay = useSelector((state) => state.orderPay);
+    const {
+        loading: loadingPay,
+        error: errorPay,
+        success: successPay,
+    } = orderPay;
 
     const dispatch = useDispatch();
 
@@ -31,7 +39,8 @@ const OrderScreen = (props) => {
             };
             document.body.appendChild(script);
         };
-        if (!order) {
+        if (!order || successPay || (order && order._id !== orderId)) {
+            dispatch({ type: ORDER_PAY_RESET });
             dispatch(detailsOrder(orderId));
         } else {
             if (!order.isPaid) {
@@ -42,12 +51,11 @@ const OrderScreen = (props) => {
                 }
             }
         }
-    }, [dispatch, order, orderId, sdkReady]);
-      
-        const successPaymentHnadler = () => {
-          // TODO: dispatch pay order
-        };
-      
+    }, [dispatch, order, orderId, sdkReady, successPay]);
+
+    const successPaymentHandler = (paymentResult) => {
+        dispatch(payOrder(order, paymentResult));
+    };
 
 
     return (
@@ -57,47 +65,47 @@ const OrderScreen = (props) => {
             <MessageBox variant="danger">{error}</MessageBox>
         ) : (
             <div>
-                <h1>Order {order._id}</h1>
+                <h1>Commande {order._id}</h1>
                 <div className="row top">
                     <div className="col-2">
                         <ul>
                             <li>
                                 <div className="card card-body">
-                                    <h2>Shipping</h2>
+                                    <h2>Livraison</h2>
                                     <p>
-                                        <strong>Name:</strong> {order.shippingAddress.fullName} <br />
-                                        <strong>Address: </strong> {order.shippingAddress.address},
+                                        <strong>Nom:</strong> {order.shippingAddress.fullName} <br />
+                                        <strong>Adresse: </strong> {order.shippingAddress.address},
                                         {order.shippingAddress.city},{' '}
                                         {order.shippingAddress.postalCode},
                                         {order.shippingAddress.country}
                                     </p>
                                     {order.isDelivered ? (
                                         <MessageBox variant="success">
-                                            Delivered at {order.deliveredAt}
+                                            Envoyé à : {order.deliveredAt}
                                         </MessageBox>
                                     ) : (
-                                        <MessageBox variant="danger">Not Delivered</MessageBox>
+                                        <MessageBox variant="danger">Pas envoyé</MessageBox>
                                     )}
                                 </div>
                             </li>
                             <li>
                                 <div className="card card-body">
-                                    <h2>Payment</h2>
+                                    <h2>Paiement</h2>
                                     <p>
-                                        <strong>Method:</strong> {order.paymentMethod}
+                                        <strong>Methode :</strong> {order.paymentMethod}
                                     </p>
                                     {order.isPaid ? (
                                         <MessageBox variant="success">
-                                            Paid at {order.paidAt}
+                                            Réglé à : {order.paidAt}
                                         </MessageBox>
                                     ) : (
-                                        <MessageBox variant="danger">Not Paid</MessageBox>
+                                        <MessageBox variant="danger">Non réglé</MessageBox>
                                     )}
                                 </div>
                             </li>
                             <li>
                                 <div className="card card-body">
-                                    <h2>Order Items</h2>
+                                    <h2>Produits commandés</h2>
                                     <ul>
                                         {order.orderItems.map((item) => (
                                             <li key={item.product}>
@@ -115,7 +123,7 @@ const OrderScreen = (props) => {
                                                         </Link>
                                                     </div>
                                                     <div>
-                                                        {item.qty} x ${item.price} = ${item.qty * item.price}
+                                                        {item.qty} x {item.price} € = {item.qty * item.price} €
                                                     </div>
                                                 </div>
                                             </li>
@@ -129,50 +137,53 @@ const OrderScreen = (props) => {
                         <div className="card card-body">
                             <ul>
                                 <li>
-                                    <h2>Order Summary</h2>
+                                    <h2>Résumé de commande</h2>
                                 </li>
                                 <li>
                                     <div className="row">
-                                        <div>Items</div>
+                                        <div>Produits</div>
                                         <div>${order.itemsPrice.toFixed(2)}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="row">
-                                        <div>Shipping</div>
+                                        <div>Livraison</div>
                                         <div>${order.shippingPrice.toFixed(2)}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="row">
-                                        <div>Tax</div>
+                                        <div>Taxes</div>
                                         <div>${order.taxPrice.toFixed(2)}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="row">
                                         <div>
-                                            <strong> Order Total</strong>
+                                            <strong> Montant total </strong>
                                         </div>
                                         <div>
-                                            <strong>${order.totalPrice.toFixed(2)}</strong>
+                                            <strong>{order.totalPrice.toFixed(2)} €</strong>
                                         </div>
                                     </div>
                                 </li>
 
                                 <li>
-                                    <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHnadler} ></PayPalButton>
+                                    <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} ></PayPalButton>
                                 </li>
                                 {/* {!order.isPaid && (
                                     <li>
                                         {!sdkReady ? (
                                             <LoadingBox></LoadingBox>
                                         ) : (
-                                            <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHnadler} ></PayPalButton>
+                                            <>
+                                                {errorPay && ( <MessageBox variant="danger">{errorPay}</MessageBox> )}
+                                                {loadingPay && <LoadingBox></LoadingBox>}
+                                                <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} ></PayPalButton>
+                                            </>
                                         )}
                                     </li>
                                 )} */}
-
                             </ul>
                         </div>
                     </div>

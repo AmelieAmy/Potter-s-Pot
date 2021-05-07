@@ -285,6 +285,12 @@ img.large
     background-color: #ffe0e0;
 }
 
+.alert-success
+{
+    color: #20a020;
+    background-color: #ffe0e0;
+}
+
 
 /* FORM */
 
