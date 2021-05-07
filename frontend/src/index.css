@@ -191,8 +191,6 @@ a.brand
 img
 {
     border-radius: 0.5rem;
-    text-align: center;
-    margin-top: 1rem;
 }
 
 img.small
@@ -217,24 +215,15 @@ img.large
 
 .card
 {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
     border: 0.1rem #c0c0c0 solid;
     background-color: #f8f8f8;
     border-radius: 0.5rem;
     margin: 1rem;
-    padding: 1rem;
 }
 
 .card-body
 {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 300px;
-    height: 152px;
+    padding: 1rem;
 }
 
 .card-body > *
@@ -244,7 +233,6 @@ img.large
 
 .price
 {
-    margin-top: 0.5rem;
     font-size: 2rem;
 }
 

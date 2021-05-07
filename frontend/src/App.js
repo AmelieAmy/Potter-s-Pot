@@ -11,6 +11,7 @@ import CartScreen from './components/screenComponents/CartScreen';
 import ProductScreen from './components/screenComponents/ProductScreen';
 import { signout } from './redux_files/actions/userActions';
 import PlaceOrderScreen from './components/screenComponents/PlaceOrderScreen';
+import OrderScreen from './components/screenComponents/OrderScreen';
 
 
 const App = () => {
@@ -64,6 +65,7 @@ const App = () => {
                     <Route path="/shipping" component={ShippingAdressScreen}></Route>
                     <Route path="/payment" component={PaymentMethodScreen}></Route>
                     <Route path="/placeorder" component={PlaceOrderScreen}></Route>
+                    <Route path="/order/:id" component={OrderScreen}></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>
