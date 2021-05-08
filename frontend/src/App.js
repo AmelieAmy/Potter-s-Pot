@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {BrowserRouter, Route, Link} from 'react-router-dom'
 
@@ -18,9 +18,14 @@ import ProfileScreen from './components/screenComponents/ProfileScreen';
 import PrivateRoute from './components/sharedComponents/privateRoute';
 import SearchBox from './components/sharedComponents/searchBox';
 import SearchScreen from './components/screenComponents/SearchScreen';
+import LoadingBox from './components/sharedComponents/loadingBox';
+import MessageBox from './components/sharedComponents/messageBox';
+import { listProductCategories } from './redux_files/actions/productActions';
 
 
 const App = () => {
+
+    const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
     const cart = useSelector((state) => state.cart);
     const { cartItems } = cart;
@@ -33,6 +38,17 @@ const App = () => {
     const signoutHandler = () => {
         dispatch(signout());
     }
+
+    const productCategoryList = useSelector((state) => state.productCategoryList);
+    const {
+        loading: loadingCategories,
+        error: errorCategories,
+        categories,
+    } = productCategoryList;
+
+    useEffect(() => {
+        dispatch(listProductCategories());
+    }, [dispatch]);
     
 
     return (
@@ -40,6 +56,13 @@ const App = () => {
             <div className="grid-container">
                 <header className="row">
                     <div>
+                        <button
+                        type="button"
+                        className="open-sidebar"
+                        onClick={() => setSidebarIsOpen(true)}
+                        >
+                        <i className="fa fa-bars"></i>
+                        </button>
                         <Link to="/" className="brand">Potter's Pot</Link>
                     </div>
                     <div>
@@ -83,6 +106,29 @@ const App = () => {
                         }
                     </div>
                 </header>
+                <aside className={sidebarIsOpen ? 'open' : ''}>
+                    <ul className="categories">
+                        <li>
+                            <strong>Catégories</strong>
+                            <button onClick={() => setSidebarIsOpen(false)} className="close-sidebar" type="button">
+                                <i className="fa fa-times"></i>
+                            </button>
+                        </li>
+                        {loadingCategories ? (
+                            <LoadingBox></LoadingBox>
+                        ) : errorCategories ? (
+                            <MessageBox variant="danger">{errorCategories}</MessageBox>
+                        ) : (
+                            categories.map((c) => (
+                                <li key={c}>
+                                    <Link to={`/search/category/${c}`} onClick={() => setSidebarIsOpen(false)}>
+                                        {c}
+                                    </Link>
+                                </li>
+                            ))
+                        )}
+                    </ul>
+                </aside>
                 <main>
                     <Route path="/cart/:id?" component={CartScreen}></Route>
                     <Route path="/product/:id" component={ProductScreen}></Route>
@@ -95,6 +141,8 @@ const App = () => {
                     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
                     <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
                     <Route path="/search/name/:name?" component={SearchScreen} exact></Route>
+                    <Route path="/search/category/:category" component={SearchScreen} exact></Route>
+                    <Route path="/search/category/:category/name/:name" component={SearchScreen} exact></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>

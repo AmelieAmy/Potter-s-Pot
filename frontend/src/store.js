@@ -8,6 +8,7 @@ import {
     orderMineListReducer,
 } from './redux_files/reducers/orderReducers';
 import { 
+    productCategoryListReducer,
     productDetailsReducer, 
     productListReducer, 
 } from './redux_files/reducers/productReducers';
@@ -47,6 +48,7 @@ const reducer = combineReducers({
     orderMineList: orderMineListReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    productCategoryList: productCategoryListReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

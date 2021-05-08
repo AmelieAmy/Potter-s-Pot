@@ -20,7 +20,7 @@ const data = {
         {
             name:"ARTEZA Outils de Sculpture",
             image:"/images/01.jpg",
-            category:"equipment stencils",
+            category:"equipement stencils",
             description:"blabla",
             price:30.99,
             countInStock:2,
