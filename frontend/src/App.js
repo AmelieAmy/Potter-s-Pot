@@ -16,6 +16,8 @@ import OrderScreen from './components/screenComponents/OrderScreen';
 import OrderHistoryScreen from './components/screenComponents/OrderHistoryScreen';
 import ProfileScreen from './components/screenComponents/ProfileScreen';
 import PrivateRoute from './components/sharedComponents/privateRoute';
+import SearchBox from './components/sharedComponents/searchBox';
+import SearchScreen from './components/screenComponents/SearchScreen';
 
 
 const App = () => {
@@ -39,6 +41,9 @@ const App = () => {
                 <header className="row">
                     <div>
                         <Link to="/" className="brand">Potter's Pot</Link>
+                    </div>
+                    <div>
+                        <Route render={({history}) => <SearchBox history={history}></SearchBox>}></Route>
                     </div>
                     <div>
                         <Link to="/cart">
@@ -89,6 +94,7 @@ const App = () => {
                     <Route path="/order/:id" component={OrderScreen}></Route>
                     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
                     <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
+                    <Route path="/search/name/:name?" component={SearchScreen} exact></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>
