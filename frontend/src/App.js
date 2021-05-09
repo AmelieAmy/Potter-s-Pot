@@ -61,7 +61,7 @@ const App = () => {
                         className="open-sidebar"
                         onClick={() => setSidebarIsOpen(true)}
                         >
-                        <i className="fa fa-bars"></i>
+                            <i className="fa fa-bars"></i>
                         </button>
                         <Link to="/" className="brand">Potter's Pot</Link>
                     </div>
@@ -143,6 +143,7 @@ const App = () => {
                     <Route path="/search/name/:name?" component={SearchScreen} exact></Route>
                     <Route path="/search/category/:category" component={SearchScreen} exact></Route>
                     <Route path="/search/category/:category/name/:name" component={SearchScreen} exact></Route>
+                    <Route path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order" component={SearchScreen} exact></Route>
                     <Route path="/" component={HomeScreen} exact></Route>
                 </main>
                 <footer className="row center">Tous droits réservés</footer>
